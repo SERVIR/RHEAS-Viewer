@@ -1,0 +1,41 @@
+{% extends "rheas_viewer/base.html" %}
+{% load tethys_gizmos %}
+{% load staticfiles %}
+
+
+{% block app_content %}
+<style>
+    .btn-huge{
+    padding-top:100px;
+    padding-bottom:100px;
+      /*margin-left:10px;*/
+      /*margin-right:10px;*/
+      margin:30px;
+}
+</style>
+<h1 style="margin:10px;">Welcome to the RHEAS Viewer Beta Version!</h1>
+<h4 style="margin:10px;">This is app is currently under development. </h4>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+  <br>
+  <div class="row" style="margin:50px;">
+    <div class="col-md-6">
+      <a href="{% url 'rheas_viewer:vic' %}" class="btn btn-lg btn-block btn-huge" style="background: #245a80; color:white;">View VIC Model Output</a>
+    </div>
+    <div class="col-md-6">
+      <a href="{% url 'rheas_viewer:dssat' %}" class="btn btn-lg btn-block btn-huge" style="background: #245a80; color:white;">View DSSAT Model Output</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{# Use the after_app_content block for modals #}
+
+
+{% block app_actions %}
+
+{% endblock %}
