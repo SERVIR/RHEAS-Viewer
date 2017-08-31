@@ -1,14 +1,5 @@
 from django.http import JsonResponse, HttpResponse, Http404
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required,user_passes_test
-from django.views.decorators.csrf import csrf_exempt
-from tethys_sdk.gizmos import *
-import json
 from model import *
-import requests, urlparse
-from django.shortcuts import render
-import psycopg2
-
 
 def get_vars(request):
     return_obj = {}
@@ -77,7 +68,6 @@ def get_raster(request):
             return_obj["success"] = "success"
 
         except Exception as e:
-            print e
             return_obj["error"] = "Error"
 
         return JsonResponse(return_obj)

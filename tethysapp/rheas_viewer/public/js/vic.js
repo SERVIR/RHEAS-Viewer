@@ -444,7 +444,7 @@ var LIBRARY_OBJECT = (function() {
             $vicplotModal.find('.table').html('');
             if("success" in data) {
                 if(data.interaction == "point" || data.interaction == "polygon"){
-                    // var index = variable_data.findIndex(function(x){return variable.includes(x["id"])});
+                    //var index = variable_data.findIndex(function(x){return variable.includes(x["id"])});
                     var index = find_var_index(variable,variable_data);
                     var display_name = variable_data[index]["display_name"];
                     var units = variable_data[index]["units"];

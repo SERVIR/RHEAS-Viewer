@@ -1,5 +1,4 @@
 from tethys_sdk.base import TethysAppBase, url_map_maker
-from tethys_sdk.app_settings import PersistentStoreDatabaseSetting, PersistentStoreConnectionSetting,SpatialDatasetServiceSetting
 
 class RheasViewer(TethysAppBase):
     """
@@ -82,35 +81,3 @@ class RheasViewer(TethysAppBase):
         )
 
         return url_maps
-        
-    
-    def persistent_store_settings(self):
-        """
-        Example persistent_store_settings method.
-        """
-    
-        ps_settings = (
-            # Connection only, no database
-            PersistentStoreConnectionSetting(
-                name='rheas',
-                description='Connection with superuser role needed.',
-                required=True
-            ),
-            )
-            
-        return ps_settings
-
-    def spatial_dataset_service_settings(self):
-        """
-        Example spatial_dataset_service_settings method.
-        """
-        sds_settings = (
-            SpatialDatasetServiceSetting(
-                name='main_geoserver',
-                description='spatial dataset service for app to use',
-                engine=SpatialDatasetServiceSetting.GEOSERVER,
-                required=True,
-            ),
-        )
-
-        return sds_settings

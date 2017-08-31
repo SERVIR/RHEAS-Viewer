@@ -2,7 +2,7 @@ import os
 import requests
 import urlparse
 from os import path
-from datetime import datetime,date
+from datetime import datetime
 import time
 import numpy as np
 

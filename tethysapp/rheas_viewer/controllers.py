@@ -1,15 +1,7 @@
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from tethys_sdk.gizmos import Button
-import json
-import psycopg2
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session,sessionmaker
-from sqlalchemy import create_engine, MetaData, inspect
-from .app import RheasViewer as app
+from tethys_sdk.gizmos import *
 from model import *
 from utilities import *
-import datetime
 import config as cfg
 
 def home(request):

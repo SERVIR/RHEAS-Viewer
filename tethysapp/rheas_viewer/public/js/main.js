@@ -270,7 +270,7 @@ function addInfoMessage(message, div_id) {
 function find_var_index(item,data){
     var index = -1;
     for (var i = 0; i < data.length; ++i) {
-        if (data[i]["id"] == item) {
+        if (item.includes(data[i]["id"])) {
             index = i;
             break;
         }

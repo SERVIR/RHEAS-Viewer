@@ -1,64 +1,92 @@
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session,sessionmaker,class_mapper
-from sqlalchemy import create_engine, MetaData, inspect
-from .app import RheasViewer as app
-from datetime import datetime,date
-import gdal
-import osr
-import ogr
-import requests
-import numpy as np
 import psycopg2
-import time
 import json
-from .app import RheasViewer as app
 from utilities import *
 import math
 import config as cfg
+from geoserver.catalog import Catalog
+import geoserver
 
-conn_url = app.get_persistent_store_connection('rheas', as_url=True)
-engine = create_engine(conn_url)
 default_schemas = ['basin','crops','dssat','ken_test','information_schema','lai','precip','public','soilmoist','test','test_ke','test_tza','tmax','tmin','topology','vic','wind','pg_toast','pg_temp_1','pg_toast_temp_1','pg_catalog','ken_vic','tza_vic','eth_vic','tza_nrt']
-
 
 def get_selected_raster(region,variable,date):
 
     try:
         conn = psycopg2.connect("dbname={0} user={1} host={2} password={3}".format(cfg.connection['dbname'],cfg.connection['user'],cfg.connection['host'],cfg.connection['password']))
         cur = conn.cursor()
-        geoserver_engine = app.get_spatial_dataset_service(name='main_geoserver', as_engine=True)
 
         storename = region+'_'+variable+'_'+date
 
-        if storename in geoserver_engine.list_stores()['result']:
-            mean, stddev, min, max = get_vic_summary(region,variable,date)
-            return storename,mean, stddev, min, max
-        else:
-            sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region,variable,date)
-            cur.execute(sql)
-            data = cur.fetchall()
+        cat = Catalog(cfg.geoserver['rest_url'], username=cfg.geoserver['user'], password=cfg.geoserver['password'])
 
-            mean, stddev, min, max = get_vic_summary(region,variable,date)
+        try:
+            something = cat.get_store(storename,cfg.geoserver['workspace'])
+            if not something:
+                print "No store"
+            else:
+                mean, stddev, min, max = get_vic_summary(region, variable, date)
+                return storename, mean, stddev, min, max
+        except geoserver.catalog.FailedRequestError as e:
+            try:
 
-            rest_url = cfg.geoserver['rest_url']
+                sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region, variable,
+                                                                                                           date)
+                cur.execute(sql)
+                data = cur.fetchall()
 
-            if rest_url[-1] != "/":
-                rest_url = rest_url + '/'
+                mean, stddev, min, max = get_vic_summary(region, variable, date)
 
+                rest_url = cfg.geoserver['rest_url']
 
-            headers = {
-                'Content-type': 'image/tiff',
-            }
-            request_url = '{0}workspaces/{1}/coveragestores/{2}/file.geotiff'.format(rest_url,cfg.geoserver['workspace'] ,storename)  # Creating the rest url
+                if rest_url[-1] != "/":
+                    rest_url = rest_url + '/'
 
-            user = cfg.geoserver['user']
-            password = cfg.geoserver['password']
-            requests.put(request_url, headers=headers, data=data[0][0],
-                         auth=(user,password))  # Creating the resource on the geoserver
+                headers = {
+                    'Content-type': 'image/tiff',
+                }
+                request_url = '{0}workspaces/{1}/coveragestores/{2}/file.geotiff'.format(rest_url,
+                                                                                         cfg.geoserver['workspace'],
+                                                                                         storename)  # Creating the rest url
 
-            conn.close()
-            return storename,mean,stddev,min,max
+                user = cfg.geoserver['user']
+                password = cfg.geoserver['password']
+                requests.put(request_url, headers=headers, data=data[0][0],
+                             auth=(user, password))  # Creating the resource on the geoserver
 
+                conn.close()
+                return storename, mean, stddev, min, max
+
+            except Exception as e:
+                print e
+                return e
+
+        # if storename in geoserver_engine.list_stores()['result']:
+        #     mean, stddev, min, max = get_vic_summary(region,variable,date)
+        #     return storename,mean, stddev, min, max
+        # else:
+        #     sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region,variable,date)
+        #     cur.execute(sql)
+        #     data = cur.fetchall()
+        #
+        #     mean, stddev, min, max = get_vic_summary(region,variable,date)
+        #
+        #     rest_url = cfg.geoserver['rest_url']
+        #
+        #     if rest_url[-1] != "/":
+        #         rest_url = rest_url + '/'
+        #
+        #
+        #     headers = {
+        #         'Content-type': 'image/tiff',
+        #     }
+        #     request_url = '{0}workspaces/{1}/coveragestores/{2}/file.geotiff'.format(rest_url,cfg.geoserver['workspace'] ,storename)  # Creating the rest url
+        #
+        #     user = cfg.geoserver['user']
+        #     password = cfg.geoserver['password']
+        #     requests.put(request_url, headers=headers, data=data[0][0],
+        #                  auth=(user,password))  # Creating the resource on the geoserver
+        #
+        #     conn.close()
+        #     return storename,mean,stddev,min,max
 
     except Exception as e:
         print e
@@ -95,7 +123,6 @@ def get_vic_point(region,variable,point):
         ssql = """SELECT ST_SummaryStatsAgg(rast, 1, TRUE) AS stats FROM {0}.{1}""".format(region,variable)
         cur.execute(ssql)
         data = cur.fetchall()[0][0]
-        print data
         summary = data.strip("(").strip(")").split(',')
         count = summary[0]
         mean = round(float(summary[2]), 3)
@@ -296,7 +323,6 @@ def calculate_yield(schema):
 
         # sql = """SELECT gid,max(gwad) FROM {0}.dssat  GROUP BY gid;""".format(schema)
         sql = """SELECT gid,avg(max) as max  FROM(SELECT gid,ensemble,max(gwad) FROM {0}.dssat GROUP BY gid,ensemble ORDER BY gid,ensemble)  as foo GROUP BY gid""".format(schema)
-
 
         cur.execute(sql)
         data = cur.fetchall()
