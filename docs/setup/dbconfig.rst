@@ -2,12 +2,10 @@
 Setup: Configuration File
 ********************************************
 
-*This app requires you to have a working instance of the RHEAS database
-completed separately. See:*
-http://rheas.readthedocs.io/en/latest/
+*The parameters in this file allow the app to connect to the rheas database and the default tethys geoserver*
 
 
-Connection Settings:
+Connection Settings
 ---------------------
 Enter the connection parameters to the RHEAS database in the connection json dictionary. The following is a sample do not copy the parameters verbatim.
 
@@ -25,7 +23,7 @@ Enter the connection parameters to the RHEAS database in the connection json dic
 -  'password': The password for the rheas database
 -  'dbname': The name for the rheas database
 
-GeoServer Settings:
+GeoServer Settings
 ---------------------
 Enter the GeoServer parameters for the Tethys GeoServer instance in the geoserver json dictionary. The following is a sample do not copy the parameters verbatim.
 
