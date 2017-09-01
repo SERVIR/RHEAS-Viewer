@@ -12,6 +12,7 @@ Prerequisites
    http://docs.tethysplatform.org
 -  RHEAS Database Instance: See:
    http://rheas.readthedocs.io/en/latest/
+-  Enable external connections in RHEAS database: See: :doc:`../external` 
 -  Psycopg2 (Python package).
 -  Requests (Python package).
 -  Geoserver needs CORS enabled.
