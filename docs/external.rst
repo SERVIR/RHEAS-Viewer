@@ -1,5 +1,5 @@
 ********************************************
-Connecting to an External RHEA database
+Connecting to an External RHEAS database
 ********************************************
 
 *Follow these instructions to open up your RHEAS database to external connections. This is necessary when the RHEAS instance is on a separate machine than the Tethys instance*
