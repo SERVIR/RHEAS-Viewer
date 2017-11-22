@@ -38,9 +38,9 @@ Enter the GeoServer parameters for the Tethys GeoServer instance in the geoserve
      'workspace':'rheas'
 		}
 
-- 'rest_url': The REST URL to the geoserver instance
-- 'wms_url': The WMS URL to the geoserver instance
-- 'wfs_url':The WFS URL to the geoserver instance
-- 'user': The username for the geoserver instance
-- 'password': The password for the geoserver instance
-- 'workspace': The workspace where the WMS layers will be stored
+- 'rest_url': The REST URL to the GeoServer instance
+- 'wms_url': The WMS URL to the GeoServer instance
+- 'wfs_url':The WFS URL to the GeoServer instance
+- 'user': The username for the GeoServer instance
+- 'password': The password for the GeoServer instance
+- 'workspace': The GeoServer workspace where the WMS layers will be stored

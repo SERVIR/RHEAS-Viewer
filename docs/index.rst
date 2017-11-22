@@ -10,13 +10,21 @@ To learn more about the Tethys Platform see: http://docs.tethysplatform.org/en/s
 
 Contents
 ========
+.. toctree::
+    :maxdepth: 2
+    :caption: User Documentation
+
+    user
 
 .. toctree::
     :maxdepth: 2
+    :caption: Developer Documentation
 
     setup
     external
     customization
+
+
     
 
 

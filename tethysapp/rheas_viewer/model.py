@@ -109,6 +109,8 @@ def get_vic_summary(region,variable,date):
         min = round(float(summary[4]), 3)
         max = round(float(summary[5]), 3)
 
+        conn.close()
+
         return mean,stddev,min,max
     except Exception as e:
         print e

@@ -8,14 +8,14 @@ Setup: Web Application
 Prerequisites
 --------------
 
--  Tethys Platform 2.0 (CKAN, PostgresQL, GeoServer): See:
+-  Tethys Platform 2.0 with GeoServer(CKAN, PostgresQL, GeoServer): See:
    http://docs.tethysplatform.org
 -  RHEAS Database Instance: See:
    http://rheas.readthedocs.io/en/latest/
 -  Enable external connections in RHEAS database: See: :doc:`../external` 
 -  Psycopg2 (Python package).
 -  Requests (Python package).
--  Geoserver needs CORS enabled.
+-  GeoServer needs CORS enabled.
 
 
 Install Psycopg2

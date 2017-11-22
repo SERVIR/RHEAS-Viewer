@@ -1,89 +1,17 @@
-.map-console {
-    position: absolute;
-    top: 55px;
-    left: 70px;
-}
-.map-interaction  {
-    color: white;
-    font-size: 14px;
-    font-family:'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    background-color: rgba(0, 60, 136, 0.5);
-    border-radius: 2px 2px 0 0;
-}
-
-.map-interaction :hover{
-    background-color:rgba(0, 60, 136, 0.7); !important;
-    color:darkblue;
-}
-#app-content-wrapper #app-content{
-    height: 100%;
-    /*padding-top: 60px;*/
-    /*padding-bottom: 50px;*/
-}
-
-#inner-app-content{
-    padding: 0;
-}
-
-#app-actions {
-    display: none;
-}
-#vic-plot-modal .modal-dialog {
-  width: 75%;
-  height: 75%;
-  padding: 0;
-}
-#vic-plot-modal .modal-body {
-  height: 100%;
-  border-radius: 0;
-}
-
-
-.flex-container-row {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.warning{
-    font-size: 200%;
-    color: red;
-}
-.error{
-    font-size: 200%;
-    color: red;
-}
-a:active {
-    background-color: yellow;
-}
-
-#info-modal .modal-dialog {
-  width: 75%;
-  height: 75%;
-  padding: 0;
-}
-#info-modal .modal-body {
-  height: 100%;
-  border-radius: 0;
-}
-
-#logos {
-  padding: 5px 0;
-  white-space: nowrap;
-  width: 100%;
-  display: table;
-}
-
-.logo-image {
-  vertical-align: middle;
-  display: table-cell;
-  padding: 0 2px;
-}
-
-.logo-image img {
-  max-width: 100%;
-}
+.map-console{position:absolute;top:55px;left:70px;}
+.map-interaction{color:blue;font-size:14px;font-family:'Lucida Grande', Verdana, Geneva, Lucida, Arial, Helvetica, sans-serif;font-weight:bold;text-decoration:none;text-align:center;background-color:rgba(0, 60, 136, 0.5);border-radius:2px 2px 0 0;}
+.map-interaction:hover{background-color:rgba(0, 60, 136, 0.7);!important;color:darkblue;}
+#app-content-wrapper #app-content{height:100%;}
+#inner-app-content{padding:0;}
+#app-actions{display:none;}
+#vic-plot-modal .modal-dialog{width:75%;height:75%;padding:0;}
+#vic-plot-modal .modal-body{height:100%;border-radius:0;}
+.flex-container-row{display:flex;flex-flow:row wrap;justify-content:space-around;align-items:center;}
+.warning{font-size:200%;color:red;}
+.error{font-size:200%;color:red;}
+a:active{background-color:yellow;}
+#info-modal .modal-dialog{width:75%;height:75%;padding:0;}
+#info-modal .modal-body{height:100%;border-radius:0;}
+#logos{padding:5px 0;white-space:nowrap;width:100%;display:table;}
+.logo-image{vertical-align:middle;display:table-cell;padding:0 2px;}
+.logo-image img{max-width:100%;}
