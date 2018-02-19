@@ -5,6 +5,7 @@ import math
 import config as cfg
 from geoserver.catalog import Catalog
 import geoserver
+import requests
 
 default_schemas = ['basin','crops','dssat','ken_test','information_schema','lai','precip','public','soilmoist','test','test_ke','test_tza','tmax','tmin','topology','vic','wind','pg_toast','pg_temp_1','pg_toast_temp_1','pg_catalog','ken_vic','tza_vic','eth_vic','tza_nrt']
 
@@ -16,7 +17,7 @@ def get_selected_raster(region,variable,date):
 
         storename = region+'_'+variable+'_'+date
 
-        cat = Catalog(cfg.geoserver['rest_url'], username=cfg.geoserver['user'], password=cfg.geoserver['password'])
+        cat = Catalog(cfg.geoserver['rest_url'], username=cfg.geoserver['user'], password=cfg.geoserver['password'],disable_ssl_certificate_validation=True)
 
         try:
             something = cat.get_store(storename,cfg.geoserver['workspace'])
@@ -28,8 +29,7 @@ def get_selected_raster(region,variable,date):
         except geoserver.catalog.FailedRequestError as e:
             try:
 
-                sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region, variable,
-                                                                                                           date)
+                sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region, variable, date)
                 cur.execute(sql)
                 data = cur.fetchall()
 
@@ -49,8 +49,9 @@ def get_selected_raster(region,variable,date):
 
                 user = cfg.geoserver['user']
                 password = cfg.geoserver['password']
-                requests.put(request_url, headers=headers, data=data[0][0],
-                             auth=(user, password))  # Creating the resource on the geoserver
+
+                requests.put(request_url,verify=False,headers=headers, data=data[0][0],
+                                 auth=(user, password))  # Creating the resource on the geoserver
 
                 conn.close()
                 return storename, mean, stddev, min, max
@@ -58,35 +59,6 @@ def get_selected_raster(region,variable,date):
             except Exception as e:
                 print e
                 return e
-
-        # if storename in geoserver_engine.list_stores()['result']:
-        #     mean, stddev, min, max = get_vic_summary(region,variable,date)
-        #     return storename,mean, stddev, min, max
-        # else:
-        #     sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region,variable,date)
-        #     cur.execute(sql)
-        #     data = cur.fetchall()
-        #
-        #     mean, stddev, min, max = get_vic_summary(region,variable,date)
-        #
-        #     rest_url = cfg.geoserver['rest_url']
-        #
-        #     if rest_url[-1] != "/":
-        #         rest_url = rest_url + '/'
-        #
-        #
-        #     headers = {
-        #         'Content-type': 'image/tiff',
-        #     }
-        #     request_url = '{0}workspaces/{1}/coveragestores/{2}/file.geotiff'.format(rest_url,cfg.geoserver['workspace'] ,storename)  # Creating the rest url
-        #
-        #     user = cfg.geoserver['user']
-        #     password = cfg.geoserver['password']
-        #     requests.put(request_url, headers=headers, data=data[0][0],
-        #                  auth=(user,password))  # Creating the resource on the geoserver
-        #
-        #     conn.close()
-        #     return storename,mean,stddev,min,max
 
     except Exception as e:
         print e

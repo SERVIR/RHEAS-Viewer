@@ -3,9 +3,9 @@ connection = {'host': 'localhost',
               'password': 'pass',
               'dbname': 'rheas'}
 
-geoserver = {'rest_url':'http://tethys.servirglobal.net:8181/geoserver/rest',
-             'wms_url':'http://tethys.servirglobal.net:8181/geoserver/wms',
-             'wfs_url':'http://tethys.servirglobal.net:8181/geoserver/wfs',
+geoserver = {'rest_url':'https://tethysdev.servirglobal.net/geoserver/rest',
+             'wms_url':'https://tethysdev.servirglobal.net/geoserver/wms',
+             'wfs_url':'https://tethysdev.servirglobal.net/geoserver/wfs',
              'user':'admin',
-             'password':'pass',
+             'password':'geoserver',
              'workspace':'rheas'}
