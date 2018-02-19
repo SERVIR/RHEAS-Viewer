@@ -68,7 +68,7 @@ def get_raster(request):
             return_obj["success"] = "success"
 
         except Exception as e:
-            return_obj["error"] = "Error"
+            return_obj["error"] = str(e)+ "From ajax"
 
         return JsonResponse(return_obj)
 

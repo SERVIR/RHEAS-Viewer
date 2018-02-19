@@ -26,7 +26,8 @@ def get_selected_raster(region,variable,date):
             else:
                 mean, stddev, min, max = get_vic_summary(region, variable, date)
                 return storename, mean, stddev, min, max
-        except geoserver.catalog.FailedRequestError as e:
+        except geoserver.catalog.FailedRequestError as er1:
+
             try:
 
                 sql = """SELECT ST_AsGDALRaster(rast, 'GTiff') as tiff FROM {0}.{1} WHERE id={2}""".format(region, variable, date)
@@ -43,6 +44,7 @@ def get_selected_raster(region,variable,date):
                 headers = {
                     'Content-type': 'image/tiff',
                 }
+
                 request_url = '{0}workspaces/{1}/coveragestores/{2}/file.geotiff'.format(rest_url,
                                                                                          cfg.geoserver['workspace'],
                                                                                          storename)  # Creating the rest url
@@ -53,16 +55,14 @@ def get_selected_raster(region,variable,date):
                 requests.put(request_url,verify=False,headers=headers, data=data[0][0],
                                  auth=(user, password))  # Creating the resource on the geoserver
 
-                conn.close()
+
                 return storename, mean, stddev, min, max
 
-            except Exception as e:
-                print e
-                return e
+            except Exception as er:
+                return str(er)+' This is while adding the raster layer.'
 
-    except Exception as e:
-        print e
-        return e
+    except Exception as err:
+        return str(err)+ ' This is the generic one'
 
 def get_vic_summary(region,variable,date):
 

@@ -140,8 +140,9 @@ function ajax_update_database(ajax_url, ajax_data) {
             console.log(xhr.responseText);
         }
     })
-        .fail(function(xhr, status, error) {
+        .error(function(xhr, status, error) {
             console.log(xhr.responseText);
+            console.log(error);
         });
 
     return xhr;
