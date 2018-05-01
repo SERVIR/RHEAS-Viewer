@@ -17,7 +17,7 @@ def get_selected_raster(region,variable,date):
 
         storename = region+'_'+variable+'_'+date
 
-        cat = Catalog(cfg.geoserver['rest_url'], username=cfg.geoserver['user'], password=cfg.geoserver['password'],disable_ssl_certificate_validation=True)
+        cat = Catalog(cfg.geoserver['rest_url'], username=cfg.geoserver['user'], password=cfg.geoserver['password'])
 
         try:
             something = cat.get_store(storename,cfg.geoserver['workspace'])
@@ -52,7 +52,7 @@ def get_selected_raster(region,variable,date):
                 user = cfg.geoserver['user']
                 password = cfg.geoserver['password']
 
-                requests.put(request_url,verify=False,headers=headers, data=data[0][0],
+                requests.put(request_url,headers=headers, data=data[0][0],
                                  auth=(user, password))  # Creating the resource on the geoserver
 
 
